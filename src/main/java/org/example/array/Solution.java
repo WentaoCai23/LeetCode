@@ -14,7 +14,7 @@ class Solution {
 //            System.out.print(result[i] + " ");
 //        }
 
-        System.out.println(new Solution().minSubArrayLen(7, new int[]{2, 3, 1, 2, 4, 3}));
+        System.out.println(new Solution().minSubArrayLenV2(7, new int[]{2, 3, 1, 2, 4, 3}));
 
     }
 
@@ -27,12 +27,9 @@ class Solution {
 
         while (left <= right) { //注意<=
             mid = (left + right) / 2;
-            if (nums[mid] < target)
-                left = mid + 1;
-            else if (nums[mid] > target)
-                right = mid - 1;
-            else
-                return mid;
+            if (nums[mid] < target) left = mid + 1;
+            else if (nums[mid] > target) right = mid - 1;
+            else return mid;
         }
         return -1;
     }
@@ -105,7 +102,7 @@ class Solution {
             sum = 0;
             for (int j = i; j < nums.length; j++) {
                 sum += nums[j];
-                if (sum >= target){
+                if (sum >= target) {
                     len = j - i + 1;
                     res = res < len ? res : len;
                     break;
@@ -113,6 +110,62 @@ class Solution {
             }
 
         }
-        return res == Integer.MAX_VALUE ? 0 : res ;
+        return res == Integer.MAX_VALUE ? 0 : res;
+    }
+
+    //窗口的起始位置如何移动：如果当前窗口的值大于s了，窗口就要向前移动了（也就是该缩小了）。
+    //窗口的结束位置如何移动：窗口的结束位置就是遍历数组的指针，也就是for循环里的索引。
+    public int minSubArrayLenV2(int target, int[] nums) {
+        int sum = 0;
+        int len = 0;
+        int res = Integer.MAX_VALUE;
+        int i = 0;
+        for (int j = 0; j < nums.length; j++) {
+            sum += nums[j];
+            while (sum >= target) {
+                len = j - i + 1;
+                res = res < len ? res : len;
+                sum -= nums[i];
+                i++;
+            }
+        }
+        return res == Integer.MAX_VALUE ? 0 : res;
+    }
+
+    public int[][] generateMatrix(int n) {
+        int loop = 0;  // 控制循环次数
+        int[][] res = new int[n][n];
+        int start = 0;  // 每次循环的开始点(start, start)
+        int count = 1;  // 定义填充数字
+        int i, j;
+
+        while (loop++ < n / 2) { // 判断边界后，loop从1开始
+            // 模拟上侧从左到右
+            for (j = start; j < n - loop; j++) {
+                res[start][j] = count++;
+            }
+
+            // 模拟右侧从上到下
+            for (i = start; i < n - loop; i++) {
+                res[i][j] = count++;
+            }
+
+            // 模拟下侧从右到左
+            for (; j >= loop; j--) {
+                res[i][j] = count++;
+            }
+
+            // 模拟左侧从下到上
+            for (; i >= loop; i--) {
+                res[i][j] = count++;
+            }
+            start++;
+        }
+
+        if (n % 2 == 1) {
+            res[start][start] = count;
+        }
+
+        return res;
     }
 }
