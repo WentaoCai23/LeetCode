@@ -6,22 +6,22 @@ public class Solution {
         myLinkedList.addAtHead(7);
         myLinkedList.addAtHead(2);
         myLinkedList.addAtHead(1);
-        myLinkedList.addAtIndex(3,0);
+        myLinkedList.addAtIndex(3, 0);
         myLinkedList.deleteAtIndex(2);
     }
 
     public ListNode removeElements(ListNode head, int val) {
-        while(head != null && head.val == val){
+        while (head != null && head.val == val) {
             head = head.next;
         }
-        if (head == null){
+        if (head == null) {
             return head;
         }
         ListNode point = head;
-        while(point != null){
+        while (point != null) {
             if (point.next == null)
                 return head;
-            if (point.next.val == val){
+            if (point.next.val == val) {
                 point.next = point.next.next;
                 continue;
             }
@@ -31,21 +31,118 @@ public class Solution {
     }
 
     public ListNode removeElementsV2(ListNode head, int val) {
-        if (head == null){
+        if (head == null) {
             return head;
         }
-        ListNode dummy = new ListNode(-1,head);
+        ListNode dummy = new ListNode(-1, head);
         ListNode pre = dummy;
         ListNode cur = head;
-        while (cur != null){
-            if (cur.val == val){
+        while (cur != null) {
+            if (cur.val == val) {
                 pre.next = cur.next;
-            }else{
+            } else {
                 pre = cur;
             }
             cur = cur.next;
         }
         return dummy.next;
+    }
+
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode res = head.next;
+        ListNode pre = head;
+        ListNode cur = head.next;
+
+        while (true) {
+            pre.next = cur.next;
+            cur.next = pre;
+            cur = pre.next;
+            if (cur == null) {
+                break;
+            }
+            if (cur.next == null) {
+                break;
+            } else {
+                pre.next = cur.next;
+                pre = cur;
+                cur = cur.next;
+                if (cur == null) {
+                    break;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public ListNode swapPairsV2(ListNode head) {
+        ListNode dumyhead = new ListNode(-1); // 设置一个虚拟头结点
+        dumyhead.next = head; // 将虚拟头结点指向head，这样方面后面做删除操作
+        ListNode cur = dumyhead;
+        ListNode temp; // 临时节点，保存两个节点后面的节点
+        ListNode firstnode; // 临时节点，保存两个节点之中的第一个节点
+        ListNode secondnode; // 临时节点，保存两个节点之中的第二个节点
+        while (cur.next != null && cur.next.next != null) { //不能反过来
+            temp = cur.next.next.next;
+            firstnode = cur.next;
+            secondnode = cur.next.next;
+            cur.next = secondnode;       // 步骤一
+            secondnode.next = firstnode; // 步骤二
+            firstnode.next = temp;      // 步骤三
+            cur = firstnode; // cur移动，准备下一轮交换
+        }
+        return dumyhead.next;
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1,head);
+        ListNode pre = dummy;
+        ListNode slow = head;
+        ListNode fast = slow;
+        for (int i = 0; i < n; i++){
+            fast = fast.next;
+        }
+
+        if (fast == null){
+            return head.next;
+        }
+
+        while (fast != null){
+            fast = fast.next;
+            slow = slow.next;
+            pre = pre.next;
+        }
+
+        pre.next = slow.next;
+
+        return dummy.next;
+
+    }
+
+    public ListNode removeNthFromEndV2(ListNode head, int n){
+        ListNode dummyNode = new ListNode(0);
+        dummyNode.next = head;
+
+        ListNode fastIndex = dummyNode;
+        ListNode slowIndex = dummyNode;
+
+        //只要快慢指针相差 n 个结点即可
+        for (int i = 0; i < n  ; i++){
+            fastIndex = fastIndex.next;
+        }
+
+        while (fastIndex.next != null){
+            fastIndex = fastIndex.next;
+            slowIndex = slowIndex.next;
+        }
+
+        //此时 slowIndex 的位置就是待删除元素的前一个位置。
+        //具体情况可自己画一个链表长度为 3 的图来模拟代码来理解
+        slowIndex.next = slowIndex.next.next;
+        return dummyNode.next;
     }
 }
 
@@ -79,11 +176,11 @@ class MyLinkedList {
     }
 
     public int get(int index) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             return -1;
         }
         ListNode point = head;
-        for (int i = 0; i <= index; i++){
+        for (int i = 0; i <= index; i++) {
             point = point.next;
         }
         return point.val;
@@ -98,7 +195,7 @@ class MyLinkedList {
 
     public void addAtTail(int val) {
         ListNode point = head;
-        while (point.next != null){
+        while (point.next != null) {
             point = point.next;
         }
         point.next = new ListNode(val);
@@ -106,19 +203,19 @@ class MyLinkedList {
     }
 
     public void addAtIndex(int index, int val) {
-        if (index == size){
+        if (index == size) {
             addAtTail(val);
             return;
         }
-        if (index > size){
+        if (index > size) {
             return;
         }
-        if (index <= 0){
+        if (index <= 0) {
             addAtHead(val);
             return;
         }
         ListNode point = head;
-        for (int i = 0; i < index; i++){
+        for (int i = 0; i < index; i++) {
             point = point.next;
         }
 
@@ -129,11 +226,11 @@ class MyLinkedList {
     }
 
     public void deleteAtIndex(int index) {
-        if (index < 0 || index >= size){
+        if (index < 0 || index >= size) {
             return;
         }
         ListNode point = head;
-        for (int i = 0; i < index; i++){
+        for (int i = 0; i < index; i++) {
             point = point.next;
         }
         point.next = point.next.next;
@@ -145,7 +242,7 @@ class MyLinkedList {
         ListNode cur = head;
         ListNode pre = null;
         ListNode temp = head;
-        while (cur != null){
+        while (cur != null) {
             temp = cur.next;
             cur.next = pre;
             pre = cur;
@@ -156,15 +253,15 @@ class MyLinkedList {
 
     //递归法
     public ListNode reverseListV2(ListNode head) {
-        return reverse(head,null);
+        return reverse(head, null);
     }
 
-    public ListNode reverse(ListNode cur, ListNode pre){
-        if (cur == null){
+    public ListNode reverse(ListNode cur, ListNode pre) {
+        if (cur == null) {
             return pre;
         }
         ListNode tmp = cur.next;
         cur.next = pre;
-        return reverse(tmp,cur);
+        return reverse(tmp, cur);
     }
 }
