@@ -144,6 +144,83 @@ public class Solution {
         slowIndex.next = slowIndex.next.next;
         return dummyNode.next;
     }
+
+    //暴力
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode cura = headA;
+        ListNode curb = headB;
+        while (cura != null){
+            curb = headB;
+            while (curb != null){
+                if (cura == curb){
+                    return cura;
+                }
+                curb = curb.next;
+            }
+            cura = cura.next;
+        }
+        return null;
+    }
+
+    //减少遍历次数，相交点后面的节点必然相同，多出的那一段不需要遍历。
+    public ListNode getIntersectionNodeV2(ListNode headA, ListNode headB) {
+        ListNode cura = headA;
+        ListNode curb = headB;
+        int counta = 0;
+        int countb = 0;
+        while (cura != null){
+            counta++;
+            cura = cura.next;
+        }
+        while (curb != null){
+            countb++;
+            curb = curb.next;
+        }
+
+        cura = headA;
+        curb = headB;
+
+        if (counta > countb){
+            int num = counta - countb;
+            for (int i = 0; i < num; i++){
+                cura = cura.next;
+            }
+        }else{
+            int num = countb - counta;
+            for (int i = 0; i < num; i++){
+                curb = curb.next;
+            }
+        }
+
+        while (cura != null){
+            if (cura == curb){
+                return cura;
+            }
+            cura = cura.next;
+            curb = curb.next;
+        }
+        return null;
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {// 有环
+                ListNode index1 = fast;
+                ListNode index2 = head;
+                // 两个指针，从头结点和相遇结点，各走一步，直到相遇，相遇点即为环入口
+                while (index1 != index2) {
+                    index1 = index1.next;
+                    index2 = index2.next;
+                }
+                return index1;
+            }
+        }
+        return null;
+    }
 }
 
 
