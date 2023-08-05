@@ -79,4 +79,29 @@ public class Solution {
         return res;
     }
 
+    public boolean isHappy(int n) {
+        HashSet hashSet = new HashSet();
+        while (true) {
+            if (sum(n) == 1) {
+                return true;
+            } else {
+                if (hashSet.contains(sum(n))) {
+                    return false;
+                } else {
+                    hashSet.add(sum(n));
+                    n = sum(n);
+                }
+            }
+        }
+    }
+
+    public int sum(int n) {
+        int sum = 0;
+        while (n != 0) {
+            sum += (n % 10) * (n % 10);
+            n /= 10;
+        }
+        return sum;
+    }
+
 }
