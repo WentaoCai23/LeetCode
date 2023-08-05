@@ -98,19 +98,19 @@ public class Solution {
     }
 
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummy = new ListNode(-1,head);
+        ListNode dummy = new ListNode(-1, head);
         ListNode pre = dummy;
         ListNode slow = head;
         ListNode fast = slow;
-        for (int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             fast = fast.next;
         }
 
-        if (fast == null){
+        if (fast == null) {
             return head.next;
         }
 
-        while (fast != null){
+        while (fast != null) {
             fast = fast.next;
             slow = slow.next;
             pre = pre.next;
@@ -122,7 +122,7 @@ public class Solution {
 
     }
 
-    public ListNode removeNthFromEndV2(ListNode head, int n){
+    public ListNode removeNthFromEndV2(ListNode head, int n) {
         ListNode dummyNode = new ListNode(0);
         dummyNode.next = head;
 
@@ -130,11 +130,11 @@ public class Solution {
         ListNode slowIndex = dummyNode;
 
         //只要快慢指针相差 n 个结点即可
-        for (int i = 0; i < n  ; i++){
+        for (int i = 0; i < n; i++) {
             fastIndex = fastIndex.next;
         }
 
-        while (fastIndex.next != null){
+        while (fastIndex.next != null) {
             fastIndex = fastIndex.next;
             slowIndex = slowIndex.next;
         }
@@ -149,10 +149,10 @@ public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode cura = headA;
         ListNode curb = headB;
-        while (cura != null){
+        while (cura != null) {
             curb = headB;
-            while (curb != null){
-                if (cura == curb){
+            while (curb != null) {
+                if (cura == curb) {
                     return cura;
                 }
                 curb = curb.next;
@@ -168,11 +168,11 @@ public class Solution {
         ListNode curb = headB;
         int counta = 0;
         int countb = 0;
-        while (cura != null){
+        while (cura != null) {
             counta++;
             cura = cura.next;
         }
-        while (curb != null){
+        while (curb != null) {
             countb++;
             curb = curb.next;
         }
@@ -180,20 +180,20 @@ public class Solution {
         cura = headA;
         curb = headB;
 
-        if (counta > countb){
+        if (counta > countb) {
             int num = counta - countb;
-            for (int i = 0; i < num; i++){
+            for (int i = 0; i < num; i++) {
                 cura = cura.next;
             }
-        }else{
+        } else {
             int num = countb - counta;
-            for (int i = 0; i < num; i++){
+            for (int i = 0; i < num; i++) {
                 curb = curb.next;
             }
         }
 
-        while (cura != null){
-            if (cura == curb){
+        while (cura != null) {
+            if (cura == curb) {
                 return cura;
             }
             cura = cura.next;

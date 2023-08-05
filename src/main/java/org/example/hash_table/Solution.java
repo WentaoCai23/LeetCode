@@ -12,27 +12,27 @@ public class Solution {
     public static void main(String[] args) {
         String s = "anagram";
         String t = "nagaram";
-        System.out.println(new Solution().isAnagramV2(s,t));
+        System.out.println(new Solution().isAnagramV2(s, t));
     }
 
     //暴力
     public boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()){
+        if (s.length() != t.length()) {
             return false;
         }
         int[] flag = new int[t.length()];
-        for (int i = 0; i < s.length(); i++){
+        for (int i = 0; i < s.length(); i++) {
             int exist = 0;
-            for (int j = 0; j < t.length(); j++){
+            for (int j = 0; j < t.length(); j++) {
                 if (flag[j] == 1)
                     continue;
-                if (s.charAt(i) == t.charAt(j)){
+                if (s.charAt(i) == t.charAt(j)) {
                     exist = 1;
                     flag[j] = 1;
                     break;
                 }
             }
-            if (exist == 0){
+            if (exist == 0) {
                 return false;
             }
         }
@@ -41,7 +41,7 @@ public class Solution {
 
     //哈希表法
     public boolean isAnagramV2(String s, String t) {
-        if (s.length() != t.length()){
+        if (s.length() != t.length()) {
             return false;
         }
         int[] record = new int[26];
@@ -52,7 +52,7 @@ public class Solution {
             record[t.charAt(i) - 'a']--;
         }
         for (int i = 0; i < record.length; i++) {
-            if (record[i] != 0){
+            if (record[i] != 0) {
                 return false;
             }
         }
@@ -66,7 +66,7 @@ public class Solution {
             hashSet1.add(i);
         }
         for (int i : nums2) {
-            if (hashSet1.contains(i)){
+            if (hashSet1.contains(i)) {
                 hashSet2.add(i);
             }
         }
