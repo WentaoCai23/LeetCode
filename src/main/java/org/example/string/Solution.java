@@ -99,4 +99,12 @@ public class Solution {
         }
         return res;
     }
+
+    public String reverseLeftWords(String s, int n) {
+        char[] charArray = s.toCharArray();
+        reverseChar(charArray, 0, s.length());
+        reverseChar(charArray, 0, s.length() - n);
+        reverseChar(charArray, s.length() - n, n);
+        return String.valueOf(charArray);
+    }
 }
