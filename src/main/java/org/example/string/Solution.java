@@ -5,7 +5,8 @@ import java.util.Arrays;
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println(new Solution().reverseWords("the sky is blue"));
+        //System.out.println(new Solution().reverseWords("the sky is blue"));
+        System.out.println(new Solution().repeatedSubstringPattern("aba"));
     }
 
     public void reverseString(char[] s) {
@@ -106,5 +107,49 @@ public class Solution {
         reverseChar(charArray, 0, s.length() - n);
         reverseChar(charArray, s.length() - n, n);
         return String.valueOf(charArray);
+    }
+
+    public int strStr(String haystack, String needle) {
+        if (needle.length() == 0) return 0;
+        int[] next = new int[needle.length()];
+        //求next数组
+        getNext(next, needle);
+
+        int j = 0;
+        //i不会回头，会一直往前移动，j会回头
+        for (int i = 0; i < haystack.length(); i++) {
+            //当不等时，j跟据next数组跳转
+            while (j > 0 && needle.charAt(j) != haystack.charAt(i))
+                j = next[j - 1];
+            //当相等时，j往前移动
+            if (needle.charAt(j) == haystack.charAt(i))
+                j++;
+            //匹配成功
+            if (j == needle.length())
+                return i - needle.length() + 1;
+        }
+        return -1;
+
+    }
+
+    //其实相当于模式串对自身又进行了kmp
+    private void getNext(int[] next, String s) {
+        int j = 0;
+        next[0] = 0;
+        for (int i = 1; i < s.length(); i++) {
+            while (j > 0 && s.charAt(j) != s.charAt(i))
+                j = next[j - 1];
+            if (s.charAt(j) == s.charAt(i))
+                j++;
+            next[i] = j;
+        }
+    }
+
+    //在判断 s + s 拼接的字符串里是否出现一个s的的时候，要刨除 s + s 的首字符和尾字符，这样避免在s+s中搜索出原来的s，我们要搜索的是中间拼接出来的s
+    //我们可以从位置1开始查询，并希望查询结果不为位置n，这与移除字符串的第一个和最后一个字符是等价的
+    //index(s, 1)相当于去头
+    //当没有去尾的情况下，如果s+s里不存在一个s时，(s + s).indexOf(s, 1) 必然等于 s.length()
+    public boolean repeatedSubstringPattern(String s) {
+        return (s + s).indexOf(s, 1) != s.length();
     }
 }
