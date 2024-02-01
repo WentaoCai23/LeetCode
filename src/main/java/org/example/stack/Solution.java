@@ -66,7 +66,47 @@ public class Solution {
         return stack.pop();
     }
 
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 1){
+            return nums;
+        }
+        int len = nums.length - k + 1;
+        int[] res = new int[len];
+        int num = 0;
+        CustomQueue queue = new CustomQueue();
+        for (int i = 0; i < k; i++){
+            queue.add(nums[i]);
+        }
+        res[num++] = queue.peek();
+        for (int i = k; i < nums.length; i++){
+            queue.remove(nums[i - k]);
+            queue.add(nums[i]);
+            res[num++] = queue.peek();
+        }
+        return res;
+    }
 
+    public int[] topKFrequent(int[] nums, int k) {
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+        int[] res = new int[k];
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (Map.Entry<Integer, Integer> x : map.entrySet()) {
+            int[] tmp = new int[2];
+            tmp[0] = x.getKey();
+            tmp[1] = x.getValue();
+            queue.add(tmp);
+            if (queue.size() > k){
+                queue.remove();
+            }
+        }
+        for (int i = 0; i < k; i++){
+            res[i] = queue.remove()[0];
+        }
+        return res;
+    }
 
 }
 
@@ -149,5 +189,26 @@ class MyStack {
 
     public boolean empty() {
         return queue1.isEmpty();
+    }
+}
+
+class CustomQueue{
+    Deque<Integer> deque = new LinkedList<>();
+
+    public void remove(int val){
+        if (!deque.isEmpty() && deque.peek() == val){
+            deque.remove();
+        }
+    }
+
+    public void add(int val){
+        while (!deque.isEmpty() && deque.getLast() < val){
+            deque.removeLast();
+        }
+        deque.add(val);
+    }
+
+    public int peek(){
+        return deque.peek();
     }
 }

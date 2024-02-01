@@ -1,7 +1,5 @@
 package org.example.string;
 
-import java.util.Arrays;
-
 public class Solution {
 
     public static void main(String[] args) {
@@ -51,7 +49,7 @@ public class Solution {
     }
 
     public String replaceSpace(String s) {
-        return s.replaceAll(" ","%20");
+        return s.replaceAll(" ", "%20");
     }
 
     public static String replaceSpaceV2(String s) {
@@ -76,15 +74,15 @@ public class Solution {
     public String reverseWords(String s) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 0;
-        while (s.charAt(i) == ' '){
+        while (s.charAt(i) == ' ') {
             i++;
         }
         int j = s.length() - 1;
-        while (s.charAt(j) == ' '){
+        while (s.charAt(j) == ' ') {
             j--;
         }
-        for (; i <= j; i++){
-            if (i != 0 && s.charAt(i) == ' ' && s.charAt(i-1) == ' '){
+        for (; i <= j; i++) {
+            if (i != 0 && s.charAt(i) == ' ' && s.charAt(i - 1) == ' ') {
                 continue;
             }
             stringBuilder.append(s.charAt(i));
@@ -94,7 +92,7 @@ public class Solution {
         String res = "";
         for (int k = split.length - 1; k >= 0; k--) {
             res += split[k];
-            if (k != 0){
+            if (k != 0) {
                 res += " ";
             }
         }
