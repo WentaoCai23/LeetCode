@@ -213,6 +213,20 @@ public class Solution {
         }
         return depth;
     }
+
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        invertTree(root.left);
+        invertTree(root.right);
+        TreeNode tmp;
+        tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+        return root;
+    }
+
 }
 
 
