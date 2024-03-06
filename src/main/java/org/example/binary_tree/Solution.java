@@ -198,6 +198,7 @@ public class Solution {
             int size = queue.size();
             while (size > 0) {
                 TreeNode node = queue.remove();
+                // 当我们找到一个叶子节点时，直接返回这个叶子节点的深度。广度优先搜索的性质保证了最先搜索到的叶子节点的深度一定最小
                 if (node.left == null && node.right == null) {
                     return depth;
                 }
@@ -226,6 +227,118 @@ public class Solution {
         root.right = tmp;
         return root;
     }
+
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return compare(root.left, root.right);
+    }
+
+    public boolean compare(TreeNode left, TreeNode right) {
+        if (left == null && right != null) {
+            return false;
+        } else if (left != null && right == null) {
+            return false;
+        } else if (left == null && left == null) {
+            return true;
+        } else if (left.val != right.val) {
+            return false;
+        }
+
+        boolean outside = compare(left.left, right.right);
+        boolean inside = compare(left.right, right.left);
+
+        return outside && inside;
+    }
+
+    public int maxDepth(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        int depth = 0;
+        if (root.children != null) {
+            for (Node child : root.children) {
+                depth = Math.max(depth, maxDepth(child));
+            }
+        }
+        return depth + 1;
+    }
+
+    public int countNodes(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return countNodes(root.left) + countNodes(root.right) + 1;
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        return getHeight(root) != -1;
+    }
+
+    public int getHeight(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(node.left);
+        if (leftHeight == -1) {
+            return -1;
+        }
+        int rightHeight = getHeight(node.right);
+        if (rightHeight == -1) {
+            return -1;
+        }
+        return Math.abs(leftHeight - rightHeight) > 1 ? -1 : Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        List<Integer> path = new ArrayList<>();
+        traversal(root, path, result);
+        return result;
+    }
+
+    public void traversal(TreeNode node, List<Integer> path, List<String> result) {
+        path.add(node.val);
+        if (node.left == null && node.right == null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < path.size() - 1; i++) {
+                stringBuilder.append(path.get(i)).append("->");
+            }
+            stringBuilder.append(path.get(path.size() - 1));
+            result.add(stringBuilder.toString());
+            return;
+        }
+        if (node.left != null) {
+            traversal(node.left, path, result);
+            path.remove(path.size() - 1);
+        }
+        if (node.right != null) {
+            traversal(node.right, path, result);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    public int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 0;
+        }
+        int left = sumOfLeftLeaves(root.left);
+        int right = sumOfLeftLeaves(root.right);
+        int mid = 0;
+        if (root.left != null && root.left.left == null && root.left.right == null) {
+            mid = root.left.val;
+        }
+        int sum = left + right + mid;
+        return sum;
+    }
+
 
 }
 
