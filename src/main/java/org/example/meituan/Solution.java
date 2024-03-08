@@ -154,6 +154,80 @@ public class Solution {
         return result;
     }
 
+    public static void waimaidingdan() {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        double[] a = new double[n];
+        double[] b = new double[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = in.nextDouble();
+            b[i] = in.nextDouble();
+        }
+        double x = in.nextDouble();
+        double y = in.nextDouble();
+
+        double asum = 0;
+        double bsum = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (a[i] <= 0 || b[i] <= 0 || b[i] > a[i]) {
+                System.out.println("error");
+                return;
+            }
+            asum += a[i];
+            bsum += b[i];
+        }
+
+        double result = 0.0;
+        if (x <= 0 || y <= 0 || y > x) {
+            System.out.println("error");
+            return;
+        }
+
+        if (asum >= x) {
+            if (asum - y < bsum) {
+                result = asum - y;
+            } else {
+                result = bsum;
+            }
+        } else {
+            result = bsum;
+        }
+
+        System.out.printf("%.2f", result);
+    }
+
+    public static void zifuchuanpipeidu() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        String s = sc.next();
+        String t = sc.next();
+        List<Character> s_list = new ArrayList<>();
+        List<Character> t_list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) != t.charAt(i)) {
+                s_list.add(s.charAt(i));
+                t_list.add(t.charAt(i));
+            }
+        }
+
+        for (int i = 0; i < s_list.size(); i++) {
+            if (t_list.indexOf(s_list.get(i)) != -1 && t_list.get(i) == s_list.get(t_list.indexOf(s_list.get(i)))) {
+                System.out.println(n - s_list.size() + 2);
+                return;
+            }
+        }
+
+        for (int i = 0; i < s_list.size(); i++) {
+            if (t_list.indexOf(s_list.get(i)) != -1) {
+                System.out.println(n - s_list.size() + 1);
+                return;
+            }
+        }
+
+        System.out.println(n - s_list.size());
+    }
+
 }
 
 class TreeNode {
