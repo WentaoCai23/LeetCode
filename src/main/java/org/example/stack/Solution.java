@@ -6,6 +6,31 @@ public class Solution {
 
     public static void main(String[] args) {
 
+        /*
+        Stack
+        1. push()  压入栈
+        2. pop()   弹出栈顶元素
+        3. peek()  返回栈顶元素，但不弹出
+        4. empty() 栈是否为空
+         */
+        Stack<Integer> stack = new Stack<>();
+        /*
+        Queue
+           会报错      不会报错
+        1. add()      offer()   队列后面添加元素
+        2. remove()   poll()    移除队列最前端的元素
+        3. element()  peek()    返回队列最前端的元素
+         */
+        Queue<Integer> queue = new LinkedList<>();
+        /*
+        1. Deque作为栈时和Stack一样，
+        如果想移除栈底元素可以使用removeLast()或者pollLast()
+        如果想在栈底添加元素可以使用addLast()或者offerLast()
+        2. Deque作为队列时和Queue一样，
+        如果想要在队列前面添加元素可以使用addFirst()或者offerFirst()
+        如果想要移除在队列后面的元素可以使用removeLast()或者pollLast()
+         */
+        Deque<Integer> deque = new LinkedList<>();
     }
 
     public boolean isValid(String s) {

@@ -154,7 +154,7 @@ public class Solution {
         return result;
     }
 
-    public static void waimaidingdan() {
+    public static void niuke20240101() {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         double[] a = new double[n];
@@ -195,9 +195,10 @@ public class Solution {
         }
 
         System.out.printf("%.2f", result);
+        in.close();
     }
 
-    public static void zifuchuanpipeidu() {
+    public static void niuke20240102() {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         String s = sc.next();
@@ -226,8 +227,36 @@ public class Solution {
         }
 
         System.out.println(n - s_list.size());
+        sc.close();
     }
 
+    public static void niuke20240103() {
+
+    }
+
+    public static void niuke20240104() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            list.add(sc.nextInt());
+        }
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        int i = list.indexOf(x);
+        int j = list.indexOf(y);
+
+        if (i - j == 1 || j - 1 == 1) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        sc.close();
+    }
+
+    public static void niuke20240105() {
+
+    }
 }
 
 class TreeNode {
