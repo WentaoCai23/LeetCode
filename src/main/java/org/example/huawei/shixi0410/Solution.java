@@ -1,4 +1,4 @@
-package org.example.huawei;
+package org.example.huawei.shixi0410;
 
 import java.util.*;
 
@@ -17,9 +17,10 @@ public class Solution {
 //        Collections.reverse(list);
 //        Collections.sort(list, Collections.reverseOrder());
 //        System.out.println(list);
-        int[] nums = {3, 2, 4, 1, 6, 7, 9, 8, 5};
-        new Solution().quickSort(nums);
-        System.out.println(Arrays.toString(nums));
+//        int[] nums = {3, 2, 4, 1, 6, 7, 9, 8, 5};
+//        new Solution().quickSort(nums);
+//        System.out.println(Arrays.toString(nums));
+        //new Solution().shixi041701();
     }
 
     public int trap(int[] height) {
@@ -406,4 +407,220 @@ public class Solution {
         array[position] = pivot;
         return position;
     }
-}
+
+    public void shixi041001() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Map<String, Integer> logMap = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            String[] split = sc.next().split(",");
+            String key = split[0] + "," + split[1] + "," + split[2];
+            if (!logMap.containsKey(key)) {
+                logMap.put(key, Integer.valueOf(split[3]));
+            }
+        }
+        int m = sc.nextInt();
+        Map<String, Integer> factorMap = new HashMap<>();
+        for (int i = 0; i < m; i++) {
+            String temp = sc.next();
+            String[] split = temp.split(",");
+            factorMap.put(split[0], Integer.valueOf(split[1]));
+        }
+
+        Map<String, Integer> res = new HashMap<>();
+        for (String str : logMap.keySet()) {
+            String[] split = str.split(",");
+            int unitPrice = factorMap.getOrDefault(split[2], 0);
+            int time = logMap.get(str);
+            if (time < 0 || time > 100) {
+                time = 0;
+            }
+            res.put(split[1], res.getOrDefault(split[1], 0) + unitPrice * time);
+        }
+
+        // 可以采用TreeMap，TreeMap会根据key的自然顺序进行排列
+        List<String> list = new ArrayList<>();
+        for (String s : res.keySet()) {
+            list.add(s);
+        }
+        Collections.sort(list);
+        for (String s : list) {
+            System.out.println(s + "," + res.get(s));
+        }
+        sc.close();
+    }
+
+    public void shixi041002() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[][] m = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                m[i][j] = sc.nextInt();
+            }
+        }
+        father = new int[n + 5];
+        sum = new int[n];
+        init();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (m[i][j] != 0) {
+                    join(i, j, m[i][j]);
+                }
+            }
+        }
+        Arrays.sort(sum);
+        for (int i = n - 1; i >= 0; i--) {
+            if (sum[i] > 0) {
+                System.out.print(sum[i] + " ");
+            }
+        }
+        sc.close();
+    }
+
+    int[] father;
+    int[] sum;
+
+    public void init() {
+        for (int i = 0; i < father.length; i++) {
+            father[i] = i;
+        }
+    }
+
+    public int find(int u) {
+        if (father[u] == u) {
+            return u;
+        } else {
+            father[u] = find(father[u]);
+            return father[u];
+        }
+    }
+
+    public void join(int u, int v, int val) {
+        u = find(u);
+        v = find(v);
+        sum[u] += val;
+        if (u == v) {
+            return;
+        }
+        father[v] = u;
+        sum[u] += sum[v];
+        sum[v] = 0;
+    }
+
+    public boolean isSame(int u, int v) {
+        u = find(u);
+        v = find(v);
+        return u == v;
+    }
+
+    public void shixi041003() {
+
+    }
+
+    public void shixi041004() {
+        int[] hash = new int[100001];
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        String[] split = str.split(",");
+        for (String s : split) {
+            hash[Integer.valueOf(s)]++;
+        }
+        int flag = split.length / 2 + 1;
+        for (int i = 0; i < 100001; i++) {
+            if (hash[i] >= flag) {
+                System.out.print(i);
+                return;
+            }
+        }
+        System.out.print(0);
+        sc.close();
+    }
+
+    public void shixi041005() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] office = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                office[i][j] = sc.nextInt();
+            }
+        }
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        sc.nextLine();
+        String relations = sc.nextLine();
+        String[] split = relations.split(" ");
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < split.length; i++) {
+            set.add(Integer.valueOf(split[i]));
+        }
+
+        boolean[][] visited = new boolean[n][m];
+        visited[x][y] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int nextX = x + directions[i][0];
+            int nextY = y + directions[i][1];
+            if (nextX < 0 || nextX >= office.length || nextY < 0 || nextY >= office[0].length) {
+                continue;
+            }
+            dfs(office, nextX, nextY, visited, set);
+        }
+
+        System.out.print(num);
+
+        sc.close();
+    }
+
+    int num = 0;
+    int[][] directions = {{1, 0}, {0 ,1}, {-1, 0}, {0, -1}};
+
+    public void dfs(int[][] office, int x, int y, boolean[][] visited, Set<Integer> set) {
+        if (visited[x][y] || !set.contains(office[x][y])) {
+            return;
+        }
+
+        visited[x][y] = true;
+        num++;
+
+        for (int i = 0; i < 4; i++) {
+            int nextX = x + directions[i][0];
+            int nextY = y + directions[i][1];
+            if (nextX < 0 || nextX >= office.length || nextY < 0 || nextY >= office[0].length) {
+                continue;
+            }
+            dfs(office, nextX, nextY, visited, set);
+        }
+    }
+
+    public void shixi041006() {
+        Scanner sc = new Scanner(System.in);
+        int kcal_low = sc.nextInt();
+        int kcal_high = sc.nextInt();
+        sc.nextLine();
+        String str = sc.nextLine();
+        String[] split = str.split(" ");
+        int[] menu = new int[split.length];
+        for (int i = 0; i < split.length; i++) {
+            menu[i] = Integer.valueOf(split[i]);
+        }
+        int[] dp = new int[kcal_high + 1];
+        dp[0] = 1;
+
+        for (int i = 0; i < menu.length; i++) {
+            for (int j = menu[i]; j <= kcal_high; j++) {
+                dp[j] += dp[j - menu[i]];
+            }
+        }
+
+        int result = 0;
+        for (int i = kcal_low; i <= kcal_high; i++) {
+            result += dp[i];
+        }
+
+        System.out.print(result);
+        sc.close();
+    }
+ }
